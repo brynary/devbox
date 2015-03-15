@@ -1,24 +1,4 @@
-SSH_ENV="$HOME/.ssh/environment"
-
-function start_agent {
-    echo "Initialising new SSH agent..."
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
-}
-
-# Source SSH settings, if applicable
-
-if [ -f "${SSH_ENV}" ]; then
-    . "${SSH_ENV}" > /dev/null
-    #ps ${SSH_AGENT_PID} doesn't work under cywgin
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-        start_agent;
-    }
-else
-    start_agent;
-fi
+cd /p
 
 export CLICOLOR=1
 export LSCOLORS=gxfxcxdxbxegedabagacad
@@ -35,6 +15,10 @@ fi
 
 complete -o default -o nospace -F _git_checkout gco
 
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
+source /home/dev/.z.sh
+
 alias top="top -ocpu"
 alias fsizes="du -h -d 0 ./*"
 
@@ -43,9 +27,9 @@ alias ...="cd .. && cd .."
 alias ....="cd .. && cd .. && cd .."
 
 # ls
-alias ls='ls -alFG'
-alias ll='ls -alFG'
-alias l='ls -alFG'
+alias ls='ls --color -alFG'
+alias ll='ls --color -alFG'
+alias l='ls --color -alFG'
 
 alias pwgen='dd if=/dev/urandom count=1 bs=48 2>/dev/null|uuencode -m -|tail -2|head -1'
 
