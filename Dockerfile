@@ -7,7 +7,7 @@ RUN apt-get install -q -y --no-install-recommends \
 
 # Ack
 RUN curl http://beyondgrep.com/ack-2.14-single-file > /usr/bin/ack && chmod 0755 /usr/bin/ack
-RUN curl "https://raw.githubusercontent.com/rupa/z/master/z.sh" > .z.sh
+RUN curl "https://raw.githubusercontent.com/rupa/z/master/z.sh" > /usr/local/share/z.sh
 
 # Ruby
 RUN cd /tmp && \

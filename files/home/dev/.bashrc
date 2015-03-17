@@ -17,7 +17,7 @@ complete -o default -o nospace -F _git_checkout gco
 
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
-source /home/dev/.z.sh
+source /usr/local/share/z.sh
 
 alias top="top -ocpu"
 alias fsizes="du -h -d 0 ./*"
@@ -39,7 +39,6 @@ alias staged="git diff --cached"
 # show difference between working tree and the index
 alias unstaged="git diff"
 
-alias r="rake"
 alias gdi="git diff"
 alias gb="git branch -v"
 alias gba="git branch -av"
