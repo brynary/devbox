@@ -20,10 +20,6 @@ RUN cd /tmp && \
   tar -xzvf ruby-install-0.5.0.tar.gz && \
   cd ruby-install-0.5.0/ && \
   make install
-RUN ruby-install ruby 1.9.3-p545
-RUN /bin/bash -c 'source /usr/local/share/chruby/chruby.sh && \
-  chruby 1.9.3 && \
-  gem install --no-ri --no-rdoc bundler'
 
 # PHP and Node.js
 RUN add-apt-repository -y ppa:ondrej/php5
@@ -32,9 +28,25 @@ RUN gpg -q --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 4F4EA0AAE5267A6C
 RUN curl -sL https://deb.nodesource.com/setup | bash -
 RUN apt-get install -y php5-cli nodejs
 
+RUN ruby-install ruby 1.9.3-p545
+RUN ruby-install ruby 2.2.2
+RUN ruby-install jruby 1.7.19
+
+RUN /bin/bash -c 'source /usr/local/share/chruby/chruby.sh && \
+  chruby 2.2.2 && \
+  gem install --no-ri --no-rdoc bundler && \
+  chruby 1.9.3 && \
+  gem install --no-ri --no-rdoc bundler && \
+  chruby jruby && \
+  gem install --no-ri --no-rdoc bundler'
+
 # Keyczar
 RUN curl https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -s -o - | python
 RUN easy_install python-keyczar
+
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9 && \
+  echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list && \
+  apt-get update && apt-get install -q -y --no-install-recommends lxc-docker
 
 RUN mkdir -p /var/run/sshd
 
