@@ -48,6 +48,11 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 36A
   echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list && \
   apt-get update && apt-get install -q -y --no-install-recommends lxc-docker
 
+RUN apt-add-repository ppa:ansible/ansible && \
+  apt-get update && \
+  apt-get install --no-install-recommends ansible && \
+  apt-get install --no-install-recommends python-pip
+
 RUN mkdir -p /var/run/sshd
 
 RUN locale-gen en_US.UTF-8

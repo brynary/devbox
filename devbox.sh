@@ -19,6 +19,9 @@ if ! docker port devbox 22/tcp > /dev/null 2>&1; then
       -v $HOME/p:/p \
       -v /var/run/docker.sock:/var/run/docker.sock \
       -p 2222:22 \
+      --link redis:redis \
+      --link mongo:mongo \
+      --link memcached:memcached \
       devbox > /dev/null
     sleep 3
   fi
