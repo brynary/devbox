@@ -70,7 +70,7 @@ ADD files /
 RUN cd /tmp && \
     wget -O google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
     tar -xzvpf google-cloud-sdk.tar.gz && \
-    ./google-cloud-sdk/install.sh --rc-path /home/dev/.bashrc --additional-components preview
+    ./google-cloud-sdk/install.sh --rc-path /home/dev/.bashrc --additional-components preview beta
 
 RUN chown -R dev:dev /p /home/dev
 
