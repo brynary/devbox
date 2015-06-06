@@ -48,10 +48,12 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 36A
   echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list && \
   apt-get update && apt-get install -q -y --no-install-recommends lxc-docker
 
+RUN curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose
+
 RUN apt-add-repository ppa:ansible/ansible && \
   apt-get update && \
-  apt-get install --no-install-recommends ansible && \
-  apt-get install --no-install-recommends python-pip
+  apt-get install --no-install-recommends -y ansible python-pip
 
 RUN mkdir -p /var/run/sshd
 
@@ -64,6 +66,12 @@ VOLUME ['/p']
 RUN useradd --create-home --shell /bin/bash dev
 
 ADD files /
+
+RUN cd /tmp && \
+    wget -O google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
+    tar -xzvpf google-cloud-sdk.tar.gz && \
+    ./google-cloud-sdk/install.sh --rc-path /home/dev/.bashrc --additional-components preview
+
 RUN chown -R dev:dev /p /home/dev
 
 CMD ["/usr/sbin/sshd", "-d"]

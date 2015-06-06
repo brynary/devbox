@@ -15,13 +15,13 @@ if ! docker port devbox 22/tcp > /dev/null 2>&1; then
     echo "Creating devbox..."
     docker run --name=devbox -d \
       -v $HOME/.ssh/id_rsa:/home/dev/.ssh/id_rsa \
+      -v $HOME/.ssh/google_compute_engine:/home/dev/.ssh/google_compute_engine \
+      -v $HOME/.ssh/google_compute_engine.pub:/home/dev/.ssh/google_compute_engine.pub \
       -v $HOME/.ssh/id_rsa.pub:/home/dev/.ssh/authorized_keys \
       -v $HOME/p:/p \
       -v /var/run/docker.sock:/var/run/docker.sock \
       -p 2222:22 \
-      --link redis:redis \
-      --link mongo:mongo \
-      --link memcached:memcached \
+      -p 3000:3000 \
       devbox > /dev/null
     sleep 3
   fi
